@@ -100,11 +100,6 @@ class ImportTransactionsService {
       await fs.promises.unlink(csvPathAndFile);
     }
 
-    const categories1 = await categoriesRepository.find();
-
-    console.log(categories1);
-    console.log(categories1.length);
-
     return newTransactions;
   }
 }

@@ -8,16 +8,16 @@ import Category from '../models/Category';
 
 interface Request {
   title: string;
-  value: number;
   type: 'income' | 'outcome';
+  value: number;
   category: string;
 }
 
 class CreateTransactionService {
   public async execute({
     title,
-    value,
     type,
+    value,
     category,
   }: Request): Promise<Transaction> {
     const transactionsRepository = getCustomRepository(TransactionsRepository);
@@ -32,24 +32,24 @@ class CreateTransactionService {
       throw new AppError('Insufficient founds!');
     }
 
-    const transctionsCategory = getRepository(Category);
+    const categoryRepository = getRepository(Category);
 
-    let categoryCheck = await transctionsCategory.findOne({
+    let categoryCheck = await categoryRepository.findOne({
       where: { title: category },
     });
 
     if (!categoryCheck) {
-      categoryCheck = transctionsCategory.create({
+      categoryCheck = categoryRepository.create({
         title: category,
       });
 
-      await transctionsCategory.save(categoryCheck);
+      await categoryRepository.save(categoryCheck);
     }
 
     const transaction = transactionsRepository.create({
       title,
-      value,
       type,
+      value,
       category: categoryCheck,
     });
 

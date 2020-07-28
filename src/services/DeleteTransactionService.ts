@@ -5,21 +5,17 @@ import TransactionsRepository from '../repositories/TransactionsRepository';
 class DeleteTransactionService {
   private id: string;
 
-  constructor(id: string) {
-    this.id = id;
-  }
-
-  public async execute(): Promise<void> {
+  public async execute(id: string): Promise<void> {
     const transactionsRepository = getCustomRepository(TransactionsRepository);
 
     const transaction = await transactionsRepository.findOne({
-      where: { id: this.id },
+      where: { id },
     });
 
     if (!transaction) {
       throw new AppError('Transaction not found!');
     }
-    await transactionsRepository.delete(this.id);
+    await transactionsRepository.delete(id);
   }
 }
 
